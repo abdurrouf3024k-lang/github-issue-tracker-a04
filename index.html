@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Github Issues Tracker</title>
+   <link rel="icon" type="image/png" href="images/github-logo.png">
+
+  <!-- daisy and tailwind -->
+
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+
+
+<!-- font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
+
+<!-- icons -->
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+  * {
+    font-family: "Geist", sans-serif;
+  }
+</style>
+</head>
+
+
+<body class="bg-[#F8F9FA]">
+<header class="flex items-center justify-center min-h-screen ">
+
+  <!-- Main Card -->
+  <div class="w-11/12 max-w-md mx-auto bg-white rounded-2xl shadow-lg p-6">
+
+    <!-- Logo + Title -->
+    <div class="text-center mb-6">
+      <img src="images/github-logo.png" class="w-16 mx-auto mb-2">
+      <h1 class="text-xl font-bold">GitHub Issues Tracker</h1>
+      <p class="text-sm text-[#64748B]">
+        Sign in to manage your issues
+      </p>
+    </div>
+
+    <!-- Fieldset -->
+    <fieldset class="fieldset w-full" id="loginForm">
+    
+
+      <label class="label text-black font-medium">Username</label>
+      <input id="user-name" type="text" class="input input-bordered w-full" placeholder="Enter Username" />
+      <p class=" text-[#4A00FF] mb-2">Default: admin</p>
+
+      <label class="label mt-3 text-black font-medium">Password</label>
+      <input id="password" type="password" class="input input-bordered w-full" placeholder="Enter Password" />
+      <p class="text-[#4A00FF] mb-2">Default: admin123</p>
+
+      <button id="signin-btn" type="submit" class="btn btn-primary w-full mt-4 ">Sign In</button>
+    </fieldset>
+
+  </div>
+
+</header>
+
+
+
+
+<script src="script/login.js"></script>
+</body>
+</html>
