@@ -20,7 +20,9 @@ console.log(issue);
 const issueDiv = document.createElement("div");
 
 issueDiv.innerHTML = `
-<div class="bg-[#FFFFFF] rounded-xl shadow-sm  p-4 flex flex-col justify-between h-full
+<div class="bg-[#FFFFFF] rounded-xl shadow-sm border-t-4 
+${issue.status === 'open'?'border-[#00A96E]' : 'border-[#A855F7]'} 
+p-4 flex flex-col justify-between h-full
  ">
   <!-- Top section -->
   <div>
