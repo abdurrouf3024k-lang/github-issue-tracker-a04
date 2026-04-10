@@ -4,8 +4,29 @@ const loadIssues = () => {
   .then((json) => displayIssues(json.data))
 };
 
-const displayIssues = (issues) => {
+const loadSingleIssue=(id)=>{
+ const url= `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`;
+fetch(url)
+.then(res=>res.json())
+.then((data)=>displaySingleIssue(data.data));
+}
 
+const displaySingleIssue=(words)=>{
+ const singleContainer = document.getElementById("single-container");
+ singleContainer.innerHTML = "";
+
+
+  console.log(words);
+ const single = document.createElement("div");
+
+ single.innerHTML=`
+ <p>cat</p>
+ `;
+ singleContainer.append(single);
+
+}
+
+const displayIssues = (issues) => {
 
 //1-get the container and empty
 const issuesContainer = document.getElementById("issues-container");
@@ -24,6 +45,7 @@ issueDiv.innerHTML = `
 ${issue.status === 'open'?'border-[#00A96E]' : 'border-[#A855F7]'} 
 p-4 flex flex-col justify-between h-full
  ">
+ <button onclick = "loadSingleIssue(${issue.id})" class = "btn"></button>
   <!-- Top section -->
   <div>
     <!-- Priority -->
