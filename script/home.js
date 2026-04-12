@@ -3,11 +3,17 @@ console.log("JS LOADED");
 let allIssues = [];
 
 const loadIssues = () => {
+
+manageSpinner(true); 
+
   fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues")
   .then(res => res.json())
   .then((json) => {
       allIssues = json.data;   
       displayIssues(allIssues);
+
+
+       manageSpinner(false);
     });
 };
 
@@ -104,6 +110,20 @@ const displaySingleIssue = (words) => {
   };
 };
 
+const updateIssueCount = (issues) => {
+  document.getElementById("issue-count").innerText = `${issues.length} Issues`;
+};
+
+const updateStats = (issues) => {
+  const open = issues.filter(i => i.status === "open").length;
+  const closed = issues.filter(i => i.status === "closed").length;
+
+  document.getElementById("open-count").innerText = `${open} Open`;
+  document.getElementById("closed-count").innerText = `${closed} Closed`;
+};
+
+
+
 const displayIssues = (issues) => {
 
 //1-get the container and empty
@@ -189,7 +209,10 @@ issuesContainer.append(issueDiv);
 
 
 }
- 
+
+updateIssueCount(issues);
+updateStats(issues);
+
 }
 
 
@@ -213,3 +236,6 @@ document.getElementById("searchInput").addEventListener("input", (e) => {
   displayIssues(filtered);
 });
 window.loadSingleIssue = loadSingleIssue;
+window.displayIssues = displayIssues;
+window.allIssues = allIssues;
+window.manageSpinner = manageSpinner;

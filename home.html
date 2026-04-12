@@ -62,7 +62,45 @@
   
 </section>
 
+<section class="w-11/12 mx-auto bg-white rounded-xl p-4 mt-4 shadow-sm flex justify-between items-center">
+
+ <!-- Left -->
+  <div class="flex items-center gap-3">
+    
+    <!-- Icon -->
+    <div class="bg-purple-100 text-purple-600 p-2 rounded-full">
+      <i class="fas fa-layer-group"></i>
+    </div>
+
+    <!-- Text -->
+    <div>
+      <h3 id="issue-count" class="font-semibold text-gray-800">0 Issues</h3>
+      <p class="text-xs text-gray-500">Track and manage your project issues</p>
+    </div>
+
+  </div>
+
+  <!-- Right -->
+  <div class="flex items-center gap-4 text-sm">
+    
+    <div class="flex items-center gap-1">
+      <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+      <span id="open-count" class="text-gray-600">Open</span>
+    </div>
+
+    <div class="flex items-center gap-1">
+      <span class="w-2 h-2 bg-purple-500 rounded-full"></span>
+      <span id="closed-count" class="text-gray-600">Closed</span>
+    </div>
+
+  </div>
+
+</section>
+
 <section class="container w-11/12 mx-auto rounded-xl bg-[#FBFBFB] mt-[2rem]">
+  <div id="spinner" class="hidden flex justify-center items-center py-10">
+  <span class="loading loading-spinner loading-lg text-purple-600"></span>
+</div>
   <div id="issues-container" class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-8 px-5 py-5"></div>
 </section>
 
@@ -71,6 +109,7 @@
 </section>
 
 </body>
+<script src="script/spinner.js"></script>
+<script src="script/home.js"></script>
 <script src="script/buttontoggling.js"></script>
-<script src="script/ho-me.js"></script>
 </html>
