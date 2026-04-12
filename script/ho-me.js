@@ -1,7 +1,14 @@
+console.log("JS LOADED");
+
+let allIssues = [];
+
 const loadIssues = () => {
   fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues")
   .then(res => res.json())
-  .then((json) => displayIssues(json.data))
+  .then((json) => {
+      allIssues = json.data;   
+      displayIssues(allIssues);
+    });
 };
 
 const loadSingleIssue=(id)=>{
@@ -84,12 +91,12 @@ const displaySingleIssue = (words) => {
     </div>
   `;
 
-  // ✅ Close button
+  //  Close button
   document.getElementById("closeBtn").onclick = () => {
     singleContainer.classList.add("hidden");
   };
 
-  // ✅ Outside click close
+  //  Outside click close
   singleContainer.onclick = (e) => {
     if (e.target === singleContainer) {
       singleContainer.classList.add("hidden");
@@ -184,5 +191,25 @@ issuesContainer.append(issueDiv);
 }
  
 }
+
+
+
 loadIssues();
+document.getElementById("searchInput").addEventListener("input", (e) => {
+
+  const searchText = e.target.value.toLowerCase();
+
+  if (!searchText) {
+    displayIssues(allIssues);
+    return;
+  }
+
+  const filtered = allIssues.filter(issue =>
+    issue.title.toLowerCase().includes(searchText) ||
+    issue.description.toLowerCase().includes(searchText) ||
+    issue.author.toLowerCase().includes(searchText)
+  );
+
+  displayIssues(filtered);
+});
 window.loadSingleIssue = loadSingleIssue;
