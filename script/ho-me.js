@@ -8,63 +8,94 @@ const loadSingleIssue=(id)=>{
  const url= `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`;
 fetch(url)
 .then(res=>res.json())
-.then((data)=>displaySingleIssue(data.data));
+.then((data) => {
+  console.log("single data:", data.data);
+  displaySingleIssue(data.data);
+});
 }
 
-const displaySingleIssue=(words)=>{
- const singleContainer = document.getElementById("single-container");
- const issuesContainer = document.getElementById("issues-container");
+const displaySingleIssue = (words) => {
+  const singleContainer = document.getElementById("single-container");
 
-  // hide list view
-  issuesContainer.parentElement.classList.add("hidden");
-
- // show single view
   singleContainer.classList.remove("hidden");
- singleContainer.innerHTML = "";
 
-  const single = document.createElement("div");
+  singleContainer.innerHTML = `
+    <div class="bg-white w-[600px] max-w-[90%] rounded-xl p-6 shadow-2xl relative">
 
-
-
-
- single.innerHTML=`
-    <div class="bg-white shadow-sm rounded-xl py-10 px-5">
-
-      <h2 class="text-lg font-semibold text-gray-800 mb-2">
+      <!-- Title -->
+      <h2 class="text-xl font-semibold mb-2">
         ${words.title}
       </h2>
 
+      <!-- Status + info -->
       <div class="flex items-center gap-2 text-sm text-gray-500 mb-3">
         <span class="px-2 py-1 rounded-full text-xs 
-          ${words.status === 'open' ? 'bg-green-100 text-green-600' : 'bg-purple-100 text-purple-600'}">
-          ${words.status.toUpperCase()}
+        ${words.status === 'open' ? 'bg-green-100 text-green-600' : 'bg-purple-100 text-purple-600'}">
+          ${words.status}
         </span>
 
         <span>• Opened by ${words.author}</span>
         <span>• ${new Date(words.createdAt).toLocaleDateString()}</span>
       </div>
 
-      <p class="text-sm text-gray-600 mb-4">
+      <!-- Labels -->
+      <div class="flex gap-2 mb-3 flex-wrap">
+        ${words.labels.map(label => `
+          <span class="px-2 py-1 text-xs rounded-full
+          ${label === 'bug' ? 'bg-red-100 text-red-500' : ''}
+          ${label === 'help wanted' ? 'bg-yellow-100 text-yellow-600' : ''}
+          ${label === 'enhancement' ? 'bg-green-100 text-green-600' : ''}
+          ${label === 'documentation' ? 'bg-purple-100 text-purple-500' : ''}">
+            ${label}
+          </span>
+        `).join("")}
+      </div>
+
+      <!-- Description -->
+      <p class="text-gray-600 mb-4">
         ${words.description}
       </p>
 
+      <!-- Info -->
+      <div class="bg-gray-100 p-4 rounded-lg flex justify-between mb-4">
+        <div>
+          <p class="text-xs text-gray-500">Assignee</p>
+          <p class="font-medium">${words.assignee || "Not assigned"}</p>
+        </div>
+
+        <div>
+          <p class="text-xs text-gray-500">Priority</p>
+          <span class="px-2 py-1 text-xs rounded 
+          ${words.priority === 'high' ? 'bg-red-500 text-white' : ''}
+          ${words.priority === 'medium' ? 'bg-yellow-500 text-white' : ''}
+          ${words.priority === 'low' ? 'bg-gray-400 text-white' : ''}">
+            ${words.priority}
+          </span>
+        </div>
+      </div>
+
+      <!-- Close -->
       <div class="flex justify-end">
-        <button id="closeBtn" class="bg-red-500 text-white px-4 py-1 rounded">
+        <button id="closeBtn" class="bg-purple-600 text-white px-4 py-1 rounded hover:bg-purple-700">
           Close
         </button>
       </div>
 
     </div>
- `;
- singleContainer.append(single);
+  `;
 
-  // close button functionality
+  // ✅ Close button
   document.getElementById("closeBtn").onclick = () => {
     singleContainer.classList.add("hidden");
-    issuesContainer.parentElement.classList.remove("hidden");
   };
 
-}
+  // ✅ Outside click close
+  singleContainer.onclick = (e) => {
+    if (e.target === singleContainer) {
+      singleContainer.classList.add("hidden");
+    }
+  };
+};
 
 const displayIssues = (issues) => {
 
@@ -80,15 +111,21 @@ for(let issue of issues){
 console.log(issue);
 const issueDiv = document.createElement("div");
 
- issueDiv.setAttribute("onclick", `loadSingleIssue(${issue.id})`);
-    issueDiv.classList.add("cursor-pointer");
+issueDiv.classList.add("cursor-pointer");
 
+
+issueDiv.addEventListener("click", () => {
+  
+  loadSingleIssue(issue.id);
+});
+
+issueDiv.className = `
+bg-white rounded-xl shadow-sm border-t-4 
+${issue.status === 'open' ? 'border-green-500' : 'border-purple-500'} 
+p-4 flex flex-col justify-between h-full cursor-pointer
+`;
 
 issueDiv.innerHTML = `
-<div class="bg-[#FFFFFF] rounded-xl shadow-sm border-t-4 
-${issue.status === 'open'?'border-[#00A96E]' : 'border-[#A855F7]'} 
-p-4 flex flex-col justify-between h-full
- ">
  
   <!-- Top section -->
   <div>
@@ -137,6 +174,8 @@ p-4 flex flex-col justify-between h-full
 
     </div>
 `;
+
+
 // 4-append to the container
 
 issuesContainer.append(issueDiv);
@@ -146,3 +185,4 @@ issuesContainer.append(issueDiv);
  
 }
 loadIssues();
+window.loadSingleIssue = loadSingleIssue;
